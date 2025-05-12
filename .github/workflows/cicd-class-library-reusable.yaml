@@ -74,17 +74,25 @@ jobs:
           echo "csproj_path=$(find '${{ inputs.lib-directory }}' -name '*.csproj')" >> $GITHUB_OUTPUT
         shell: bash
 
-      # Pack the NuGet package
-      - name: Pack NuGet package
-        run: ./nuget.exe pack ${{ steps.find-csproj.outputs.csproj_path }} -Properties Configuration=Release -OutputDirectory ./nupkg -Build
-
-      # List packaged files
-      - name: List packaged files
-        run: dir nupkg
-
-      # Publish to GitHub Packages
-      - name: Publish to GitHub Packages
+      # Criação do diretório nupkg (caso não exista)
+      - name: Create nuget output directory
+        run: mkdir ./nupkg
         shell: pwsh
+
+      # Empacotar o projeto como NuGet
+      - name: Pack the NuGet package
         run: |
-          ./nuget.exe push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey ${{ secrets.NUGET_TOKEN }}
+          ./nuget.exe pack ${{ steps.find-csproj.outputs.csproj_path }} `
+            -Properties Configuration=Release `
+            -OutputDirectory ./nupkg `
+            -Build
+        shell: pwsh
+
+      # Publicar no GitHub Packages
+      - name: Publish to GitHub Packages
+        run: |
+          ./nuget.exe push *.nupkg `
+            -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" `
+            -ApiKey ${{ secrets.NUGET_TOKEN }}
         working-directory: ./nupkg
+        shell: pwsh
