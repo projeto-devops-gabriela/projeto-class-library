@@ -72,7 +72,7 @@ jobs:
         id: find-csproj
         run: |
           echo "csproj_path=$(find '${{ inputs.lib-directory }}' -name '*.csproj')" >> $GITHUB_OUTPUT
-        shell: pwsh
+        shell: bash
 
       # Pack the NuGet package
       - name: Pack NuGet package
