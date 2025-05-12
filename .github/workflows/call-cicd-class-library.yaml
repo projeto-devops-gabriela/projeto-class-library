@@ -7,6 +7,10 @@ on:
   pull_request:
     branches: [main]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   call-class-library:
     uses: ./.github/workflows/cicd-class-library-reusable.yaml
@@ -16,6 +20,3 @@ jobs:
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
-    permissions:
-      contents: read
-      packages: write

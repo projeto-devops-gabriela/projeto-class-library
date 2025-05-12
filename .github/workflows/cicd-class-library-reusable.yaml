@@ -12,9 +12,6 @@ on:
     secrets:
       SONAR_TOKEN:
       NUGET_TOKEN:
-    permissions:
-      contents: read
-      packages: write
 
 jobs:
   build-and-test:
