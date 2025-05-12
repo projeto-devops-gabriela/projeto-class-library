@@ -63,7 +63,7 @@ jobs:
 
       # Pack the NuGet package
       - name: Pack NuGet package
-        run: nuget pack *.csproj -Properties Configuration=Release
+        run: msbuild /t:pack /p:Configuration=Release /p:NoBuild=true /p:BuildProjectReferences=false
         working-directory: ${{ inputs.lib-directory }}
 
       # Publish to GitHub Packages
