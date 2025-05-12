@@ -17,6 +17,4 @@ jobs:
     with:
       test-directory: 'src/UnitTestProject1'
       lib-directory: 'src/ClassLibrary1'
-    secrets:
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+    secrets: inherit

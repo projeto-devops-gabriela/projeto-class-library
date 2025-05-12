@@ -9,9 +9,6 @@ on:
       lib-directory:
         required: true
         type: string
-    secrets:
-      SONAR_TOKEN:
-      NUGET_TOKEN:
 
 jobs:
   build-and-test:
