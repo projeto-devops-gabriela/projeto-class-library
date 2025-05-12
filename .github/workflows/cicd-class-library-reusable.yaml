@@ -85,7 +85,6 @@ jobs:
       # Publish to GitHub Packages
       - name: Publish to GitHub Packages
         shell: pwsh
-        env:
-          NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
-        run: nuget.exe push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey $env:NUGET_TOKEN
+        run: |
+          ./nuget.exe push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey ${{ secrets.NUGET_TOKEN }}
         working-directory: ./nupkg
