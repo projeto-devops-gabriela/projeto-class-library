@@ -67,14 +67,15 @@ jobs:
           curl -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
           chmod +x nuget.exe
 
-      - name: debug lib-directory
+      - name: Find .csproj path
+        id: find-csproj
         run: |
-          echo "lib-directory: ${{ inputs.lib-directory }}"
-      
+          echo "csproj_path=$(find '${{ inputs.lib-directory }}' -name '*.csproj')" >> $GITHUB_OUTPUT
+        shell: bash
 
       # Pack the NuGet package
       - name: Pack NuGet package
-        run: ./nuget.exe pack ${{ inputs.lib-directory}}/*.csproj -Properties Configuration=Release -OutputDirectory ./nupkg -Build
+        run: ./nuget.exe pack ${{ steps.find-csproj.outputs.csproj_path }} -Properties Configuration=Release -OutputDirectory ./nupkg -Build
 
       # Publish to GitHub Packages
       - name: Publish to GitHub Packages
