@@ -11,6 +11,7 @@ on:
         type: string
     secrets:
       SONAR_TOKEN:
+      NUGET_TOKEN:
 
 jobs:
   build-and-test:
