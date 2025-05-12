@@ -78,7 +78,12 @@ jobs:
       - name: Pack NuGet package
         run: ./nuget.exe pack ${{ steps.find-csproj.outputs.csproj_path }} -Properties Configuration=Release -OutputDirectory ./nupkg -Build
 
+      # List packaged files
+      - name: List packaged files
+        run: dir nupkg
+
       # Publish to GitHub Packages
       - name: Publish to GitHub Packages
-        run: nuget.exe push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey ${{ secrets.NUGET_TOKEN }}
-        working-directory: ./nupkg
+        env:
+          NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
+        run: nuget.exe push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey $env:NUGET_TOKEN
