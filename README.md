@@ -6,6 +6,6 @@
 
 ### Testes - ok
 
-### Sonar - 
+### Sonar - ok
 
 ## Salvar os binários no GitHub Packages - 
