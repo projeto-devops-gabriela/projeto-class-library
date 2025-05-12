@@ -63,7 +63,6 @@ jobs:
       - name: Download nuget.exe
         run: |
           curl -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-          chmod +x nuget.exe
 
       - name: Find .csproj path
         id: find-csproj
