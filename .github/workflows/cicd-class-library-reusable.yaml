@@ -46,3 +46,15 @@ jobs:
         run: |
           vstest.console.exe **/*Test*.dll --logger:trx
         working-directory: ${{ inputs.test-directory }}
+
+      # Sonar
+      - name: Sonarqube Scanner
+        uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=${{ vars.ORGANIZATION_SONAR }}
+            -Dsonar.projectKey=${{ github.event.repository.name }}
+            -Dsonar.verbose=true
+            -Dsonar.exclusions=**/bin/**/*,**/obj/**/*,**/packages/**/*
