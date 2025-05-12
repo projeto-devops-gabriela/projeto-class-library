@@ -2,9 +2,9 @@
 
 ## CI
 
-### Build - 
+### Build - ok
 
-### Testes - 
+### Testes - ok
 
 ### Sonar - 
 
