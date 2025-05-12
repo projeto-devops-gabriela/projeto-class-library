@@ -12,6 +12,9 @@ on:
     secrets:
       SONAR_TOKEN:
       NUGET_TOKEN:
+    permissions:
+      contents: read
+      packages: write
 
 jobs:
   build-and-test:
@@ -74,9 +77,15 @@ jobs:
           echo "csproj_path=$(find '${{ inputs.lib-directory }}' -name '*.csproj')" >> $GITHUB_OUTPUT
         shell: bash
 
+      # Create nupkg directory
+      - name: Create nupkg directory
+        run: mkdir -p ./nupkg
+        shell: bash
+
       # Pack the NuGet package
       - name: Pack NuGet package
         run: ./nuget.exe pack ${{ steps.find-csproj.outputs.csproj_path }} -Properties Configuration=Release -OutputDirectory ./nupkg -Build
+        shell: pwsh
 
       # List packaged files
       - name: List packaged files
