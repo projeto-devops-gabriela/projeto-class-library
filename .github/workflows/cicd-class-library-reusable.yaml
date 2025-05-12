@@ -92,5 +92,7 @@ jobs:
       # Publish to GitHub Packages
       - name: Publish to GitHub Packages
         run: |
-          nuget.exe push ./nupkg/*.nupkg -Source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -ApiKey ${{ secrets.GITHUB_TOKEN }}
+          nuget.exe push ./nupkg/*.nupkg -Source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json -Username ${{ github.actor }} -Password ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
