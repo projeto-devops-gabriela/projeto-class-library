@@ -60,3 +60,13 @@ jobs:
             -Dsonar.projectKey=${{ github.event.repository.name }}
             -Dsonar.verbose=true
             -Dsonar.exclusions=**/bin/**/*,**/obj/**/*,**/packages/**/*
+
+      # Pack the NuGet package
+      - name: Pack NuGet package
+        run: nuget pack *.csproj -Properties Configuration=Release
+        working-directory: ${{ inputs.lib-directory }}
+
+      # Publish to GitHub Packages
+      - name: Publish to GitHub Packages
+        run: nuget push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey ${{ secrets.GITHUB_TOKEN }}
+        working-directory: ${{ inputs.lib-directory }}
