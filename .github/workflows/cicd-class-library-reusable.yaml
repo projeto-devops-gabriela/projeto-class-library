@@ -1,0 +1,48 @@
+name: CI-CD Class Library Reusable Workflow
+
+on:
+  workflow_call:
+    inputs:
+      test-directory:
+        required: true
+        type: string
+      lib-directory:
+        required: true
+        type: string
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup MSBuild
+      - name: Setup MSBuild path
+        uses: microsoft/setup-msbuild@v2
+
+      # Restore NuGet packages
+      - name: Restore NuGet packages
+        run: nuget restore
+        working-directory: ${{ inputs.lib-directory }}
+
+      # Build the Class Library
+      - name: Build class library
+        run: msbuild /p:Configuration=Release
+        working-directory: ${{ inputs.lib-directory }}
+  
+      # Build test project(s)
+      - name: Build test project
+        run: msbuild /p:Configuration=Release
+        working-directory: ${{ inputs.test-directory }}
+
+      # Setup VSTest
+      - name: Setup VSTest
+        uses: darenm/Setup-VSTest@v1
+
+      # Run tests
+      - name: Run tests
+        run: |
+          vstest.console.exe **/*Test*.dll --logger:trx
+        working-directory: ${{ inputs.test-directory }}
