@@ -88,6 +88,11 @@ jobs:
       - name: List packaged files
         run: dir nupkg
 
+      - name: Debug Token and Owner
+        run: |
+          echo "Repository owner: ${{ github.repository_owner }}"
+          echo "Using NUGET_TOKEN: ${{ secrets.NUGET_TOKEN != '' && 'SET' || 'NOT SET' }}"
+
       # Publish to GitHub Packages
       - name: Publish to GitHub Packages
         run: |
