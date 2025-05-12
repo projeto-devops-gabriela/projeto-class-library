@@ -61,12 +61,17 @@ jobs:
             -Dsonar.verbose=true
             -Dsonar.exclusions=**/bin/**/*,**/obj/**/*,**/packages/**/*
 
+      # Download nuget.exe
+      - name: Download nuget.exe
+        run: |
+          curl -o nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
+          chmod +x nuget.exe
+
       # Pack the NuGet package
       - name: Pack NuGet package
-        run: msbuild /t:pack /p:Configuration=Release /p:NoBuild=true /p:BuildProjectReferences=false
-        working-directory: ${{ inputs.lib-directory }}
+        run: ./nuget.exe pack ${{ inputs.lib-directory}}/*.csproj -Properties Configuration=Release -OutputDirectory ./nupkg -Build
 
       # Publish to GitHub Packages
       - name: Publish to GitHub Packages
-        run: nuget push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey ${{ secrets.GITHUB_TOKEN }}
+        run: nuget.exe push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey ${{ secrets.GITHUB_TOKEN }}
         working-directory: ${{ inputs.lib-directory }}
