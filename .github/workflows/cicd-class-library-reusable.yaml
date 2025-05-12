@@ -72,7 +72,7 @@ jobs:
         id: find-csproj
         run: |
           echo "csproj_path=$(find '${{ inputs.lib-directory }}' -name '*.csproj')" >> $GITHUB_OUTPUT
-        shell: bash
+        shell: pwsh
 
       # Pack the NuGet package
       - name: Pack NuGet package
@@ -84,6 +84,7 @@ jobs:
 
       # Publish to GitHub Packages
       - name: Publish to GitHub Packages
+        shell: pwsh
         env:
           NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
         run: nuget.exe push *.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey $env:NUGET_TOKEN
