@@ -15,6 +15,3 @@ jobs:
       lib-directory: 'src/ClassLibrary1'
     secrets:
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-    permissions:
-      packages: write
-      contents: read
