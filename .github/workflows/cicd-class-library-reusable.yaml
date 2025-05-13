@@ -70,35 +70,15 @@ jobs:
           echo "csproj_path=$(find '${{ inputs.lib-directory }}' -name '*.csproj')" >> $GITHUB_OUTPUT
         shell: bash
 
-      # Create nupkg directory
-      - name: Create nupkg directory
-        run: mkdir -p ./nupkg
-        shell: bash
-
       # Pack the NuGet package
       - name: Pack NuGet package
         run: ./nuget.exe pack ${{ steps.find-csproj.outputs.csproj_path }} -Properties Configuration=Release -OutputDirectory ./nupkg -Build
         shell: pwsh
 
-      # List packaged files
-      - name: List packaged files
-        run: dir nupkg
-
-      - name: Debug Token and Owner
+      # Authenticate and Publish to GitHub Packages
+      - name: Authenticate and Publish to GitHub Packages
         run: |
-          echo "Repository owner: ${{ github.repository_owner }}"
-          echo "Using NUGET_TOKEN: ${{ secrets.NUGET_TOKEN != '' && 'SET' || 'NOT SET' }}"
-      
-      # Authenticate to GitHub Packages
-      - name: Authenticate to GitHub Packages
-        run: nuget.exe sources add -Name "github" -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -Username ${{ github.actor }} -Password ${{ secrets.GITHUB_TOKEN }}
-        shell: pwsh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # Publish to GitHub Packages
-      - name: Publish to GitHub Packages
-        run: |
+          nuget.exe sources add -Name "github" -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -Username ${{ github.actor }} -Password ${{ secrets.GITHUB_TOKEN }}
           nuget.exe push **/*.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" -ApiKey ${{ secrets.GITHUB_TOKEN }}
         shell: pwsh
         env:
