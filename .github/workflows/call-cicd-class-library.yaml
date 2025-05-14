@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   call-class-library:
-    uses: Gabriela-M-Silva/Esteiras-Devops/esteira-teste-conexao.yaml@main
+    uses: Gabriela-M-Silva/Esteiras-Devops/.github/workflows/esteira-teste-conexao.yaml@main
     with:
       test-directory: 'src/UnitTestProject1'
       proj-directory: 'src/ClassLibrary1'
