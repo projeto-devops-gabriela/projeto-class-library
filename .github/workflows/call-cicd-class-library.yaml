@@ -17,4 +17,5 @@ jobs:
     with:
       test-directory: 'src/UnitTestProject1'
       proj-directory: 'src/ClassLibrary1'
+      project-type: 'ClassLibrary'
     secrets: inherit
