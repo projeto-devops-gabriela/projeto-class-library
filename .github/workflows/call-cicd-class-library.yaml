@@ -13,8 +13,8 @@ permissions:
 
 jobs:
   call-class-library:
-    uses: ./.github/workflows/cicd-class-library-reusable.yaml
+    uses: Gabriela-M-Silva/Esteiras-Devops/esteira-teste-conexao.yaml@main
     with:
       test-directory: 'src/UnitTestProject1'
-      lib-directory: 'src/ClassLibrary1'
+      proj-directory: 'src/ClassLibrary1'
     secrets: inherit
