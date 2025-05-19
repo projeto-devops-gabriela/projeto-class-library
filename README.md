@@ -8,4 +8,4 @@
 
 ### Sonar - ok
 
-## Salvar os bin·rios no GitHub Packages - 
+## Salvar os bin√°rios no GitHub Packages - ok
