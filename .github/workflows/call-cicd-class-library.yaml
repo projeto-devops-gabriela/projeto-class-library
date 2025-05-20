@@ -15,7 +15,6 @@ jobs:
   call-class-library:
     uses: projeto-devops-gabriela/esteiras-devops/.github/workflows/esteira-teste-conexao.yaml@main
     with:
-      project-directory: 'src/ClassLibrary1'
       project-type: 'ClassLibrary'
-      build-configuration: Debug
+      build-configuration: Release
     secrets: inherit
